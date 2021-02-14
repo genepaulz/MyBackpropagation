@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Backprop;
@@ -18,6 +19,16 @@ namespace MyBack
         private int picCount = 0;
         private NeuralNet n;
         private Bitmap[] trainingSet;
+        private DateTime start;
+        private void timer1_tick(object sender, EventArgs e)
+        {
+            TimeSpan duration = DateTime.Now - start;
+            label1.Text = duration.ToString();
+        }
+        private void testSampleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog3.ShowDialog();
+        }
         public Form1()
         {
             InitializeComponent();            
@@ -36,10 +47,7 @@ namespace MyBack
         {
             n.loadWeights(openFileDialog1.FileName);
         }
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {            
-            openFileDialog3.ShowDialog();            
-        }
+        
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             n.saveWeights(saveFileDialog1.FileName);
@@ -62,8 +70,8 @@ namespace MyBack
 
 
                 Bitmap image = new Bitmap(file);
-                Rectangle destRect = new Rectangle(0, 0, 64, 64);
-                Bitmap destImage = new Bitmap(64, 64);
+                Rectangle destRect = new Rectangle(0, 0, 32, 32);
+                Bitmap destImage = new Bitmap(32, 32);
 
                 destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
@@ -89,8 +97,9 @@ namespace MyBack
         private void openFileDialog3_FileOk(object sender, CancelEventArgs e)
         {
             Bitmap image = new Bitmap(openFileDialog3.FileName);
-            Rectangle destRect = new Rectangle(0, 0, 64, 64);
-            Bitmap destImage = new Bitmap(64, 64);
+            pictureBox1.Image = image;
+            Rectangle destRect = new Rectangle(0, 0, 32, 32);
+            Bitmap destImage = new Bitmap(32, 32);
 
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
@@ -121,52 +130,271 @@ namespace MyBack
                 }
             }
             n.run();
-            MessageBox.Show("" + n.getOuputData(0) /*+ "\n" + n.getOuputData(1) + "\n" + n.getOuputData(2) + "\n" + n.getOuputData(3) + "\n" + n.getOuputData(4) + "\n"
-                 + n.getOuputData(5) + "\n" + n.getOuputData(6) + "\n" + n.getOuputData(7)*/);
+            /*MessageBox.Show("" + n.getOuputData(0) + "\n" + n.getOuputData(1) + "\n" + n.getOuputData(2) + "\n" + n.getOuputData(3) + "\n" + n.getOuputData(4) + "\n"
+                 + n.getOuputData(5) + "\n" + n.getOuputData(6) + "\n" + n.getOuputData(7));*/
+            
         }
 
-        private void ballsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void createNNToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            n = new NeuralNet(4096, 2048, 1);
-        }
+            n = new NeuralNet(2304, 512, 3);
+        }        
 
         private void trainingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog2.ShowDialog();
         }
-
-        private void learnToolStripMenuItem_Click(object sender, EventArgs e)
+        private void neuralNetworkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for(int y = 0; y < 100; y++)
-            for(int x = 0; x < trainingSet.Length; x++) 
-            { 
-                int count = 0;
-                for (int w = 0; w < trainingSet[x].Width; w++)
-                {
-                    for (int h = 0; h < trainingSet[x].Height; h++)
-                    {
-                        Color pixel = trainingSet[x].GetPixel(w, h);
-                        double grey = (pixel.R + pixel.G + pixel.B) / 3;
-                        n.setInputs(count, grey);
-                        count++;
-                    }
-                }
-                n.setDesiredOutput(0, 0.0);
-               /* n.setDesiredOutput(1, 0.0);
-                n.setDesiredOutput(2, 0.0);
-                n.setDesiredOutput(3, 0.0);
-                n.setDesiredOutput(4, 0.0);
-                n.setDesiredOutput(5, 0.0);
-                n.setDesiredOutput(6, 0.0);
-                n.setDesiredOutput(7, 0.0);*/
-            }
+            n = null;
+        }
+        private void trainingSetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panel1.Controls.Clear();
+            trainingSet = null;
+            picCount = 0;
         }
 
-        private void cLEARToolStripMenuItem_Click(object sender, EventArgs e)
+        private void basketballToolStripMenuItem_Click(object sender, EventArgs e)
+        {            
+            for (int y = 0; y < 10000; y++)
+                for (int x = 0; x < trainingSet.Length; x++)
+                {
+                    int count = 0;
+                    for (int w = 0; w < trainingSet[x].Width; w++)
+                    {
+                        for (int h = 0; h < trainingSet[x].Height; h++)
+                        {
+                            Color pixel = trainingSet[x].GetPixel(w, h);
+                            double grey = (pixel.R + pixel.G + pixel.B) / 3;
+                            n.setInputs(count, grey);
+                            count++;
+                        }
+                    }                    
+                    n.setDesiredOutput(0, 0.0);
+                    n.setDesiredOutput(1, 0.0);
+                    n.setDesiredOutput(2, 1.0);
+                    n.learn();
+                }
+            MessageBox.Show("Done!");
+        }
+
+        private void baseballToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            n = new NeuralNet(1, 1, 1);
-            panel1.Controls.Clear();
-            trainingSet = new Bitmap[1];
+            for (int y = 0; y < 1000; y++)
+                for (int x = 0; x < trainingSet.Length; x++)
+                {
+                    int count = 0;
+                    for (int w = 0; w < trainingSet[x].Width; w++)
+                    {
+                        for (int h = 0; h < trainingSet[x].Height; h++)
+                        {
+                            Color pixel = trainingSet[x].GetPixel(w, h);
+                            double grey = (pixel.R + pixel.G + pixel.B) / 3;
+                            n.setInputs(count, grey);
+                            count++;
+                        }
+                    }
+                    n.setDesiredOutput(0, 0.0);
+                    n.setDesiredOutput(1, 1.0);
+                    n.setDesiredOutput(2, 0.0);
+                    n.learn();
+                }
+            MessageBox.Show("Done!");
+        }
+
+        private void billiardsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < 1000; y++)
+                for (int x = 0; x < trainingSet.Length; x++)
+                {
+                    int count = 0;
+                    for (int w = 0; w < trainingSet[x].Width; w++)
+                    {
+                        for (int h = 0; h < trainingSet[x].Height; h++)
+                        {
+                            Color pixel = trainingSet[x].GetPixel(w, h);
+                            double grey = (pixel.R + pixel.G + pixel.B) / 3;
+                            n.setInputs(count, grey);
+                            count++;
+                        }
+                    }
+                    n.setDesiredOutput(0, 0.0);
+                    n.setDesiredOutput(1, 1.0);
+                    n.setDesiredOutput(2, 1.0);
+                    n.learn();
+                }
+            MessageBox.Show("Done!");
+        }
+
+        private void footballToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < 1000; y++)
+                for (int x = 0; x < trainingSet.Length; x++)
+                {
+                    int count = 0;
+                    for (int w = 0; w < trainingSet[x].Width; w++)
+                    {
+                        for (int h = 0; h < trainingSet[x].Height; h++)
+                        {
+                            Color pixel = trainingSet[x].GetPixel(w, h);
+                            double grey = (pixel.R + pixel.G + pixel.B) / 3;
+                            n.setInputs(count, grey);
+                            count++;
+                        }
+                    }
+                    n.setDesiredOutput(0, 1.0);
+                    n.setDesiredOutput(1, 0.0);
+                    n.setDesiredOutput(2, 0.0);
+                    n.learn();
+                }
+            MessageBox.Show("Done!");
+        }
+
+        private void soccerballToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < 1000; y++)
+                for (int x = 0; x < trainingSet.Length; x++)
+                {
+                    int count = 0;
+                    for (int w = 0; w < trainingSet[x].Width; w++)
+                    {
+                        for (int h = 0; h < trainingSet[x].Height; h++)
+                        {
+                            Color pixel = trainingSet[x].GetPixel(w, h);
+                            double grey = (pixel.R + pixel.G + pixel.B) / 3;
+                            n.setInputs(count, grey);
+                            count++;
+                        }
+                    }
+                    n.setDesiredOutput(0, 1.0);
+                    n.setDesiredOutput(1, 0.0);
+                    n.setDesiredOutput(2, 1.0);
+                    n.learn();
+                }
+            MessageBox.Show("Done!");
+        }
+
+        private void volleyballToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < 1000; y++)
+                for (int x = 0; x < trainingSet.Length; x++)
+                {
+                    int count = 0;
+                    for (int w = 0; w < trainingSet[x].Width; w++)
+                    {
+                        for (int h = 0; h < trainingSet[x].Height; h++)
+                        {
+                            Color pixel = trainingSet[x].GetPixel(w, h);
+                            double grey = (pixel.R + pixel.G + pixel.B) / 3;
+                            n.setInputs(count, grey);
+                            count++;
+                        }
+                    }
+                    n.setDesiredOutput(0, 1.0);
+                    n.setDesiredOutput(1, 1.0);
+                    n.setDesiredOutput(2, 0.0);
+                    n.learn();
+                }
+            MessageBox.Show("Done!");
+        }
+
+        private void rugbyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < 2; y++)
+                for (int x = 0; x < trainingSet.Length; x++)
+                {
+                    int count = 0;
+                    for (int w = 0; w < trainingSet[x].Width; w++)
+                    {
+                        for (int h = 0; h < trainingSet[x].Height; h++)
+                        {
+                            Color pixel = trainingSet[x].GetPixel(w, h);
+                            double grey = (pixel.R + pixel.G + pixel.B) / 3;
+                            n.setInputs(count, grey);
+                            count++;
+                        }
+                    }
+                    n.setDesiredOutput(0, 1.0);
+                    n.setDesiredOutput(1, 1.0);
+                    n.setDesiredOutput(2, 1.0);
+                    n.learn();
+                }
+            MessageBox.Show("Done!");
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            n.run();
+            label1.Visible = true;
+            label2.Visible = true;
+            label3.Visible = true;
+            
+            label1.Text = Math.Round(n.getOuputData(0), 4).ToString();
+            label2.Text = Math.Round(n.getOuputData(1), 4).ToString();
+            label3.Text = Math.Round(n.getOuputData(2), 4).ToString();
+            
+
+            if (
+                n.getOuputData(0) < 0.5
+                &&
+                n.getOuputData(1) < 0.5
+                &&
+                n.getOuputData(2) > 0.5                
+                )
+                MessageBox.Show("The NeuralNetwork thinks this photo is of a basketball");
+            else if (
+                n.getOuputData(0) < 0.5
+                &&
+                n.getOuputData(1) > 0.5
+                &&
+                n.getOuputData(2) < 0.5
+                                )
+                MessageBox.Show("The NeuralNetwork thinks this photo is of a baseball");
+            else if (
+                n.getOuputData(0) < 0.5
+                &&
+                n.getOuputData(1) > 0.5
+                &&
+                n.getOuputData(2) > 0.5
+                )
+                MessageBox.Show("The NeuralNetwork thinks this photo is of a billiard ball");
+            else if (
+                n.getOuputData(0) > 0.5
+                &&
+                n.getOuputData(1) < 0.5
+                &&
+                n.getOuputData(2) < 0.5
+                )
+                MessageBox.Show("The NeuralNetwork thinks this photo is of a football");
+            else if (
+                n.getOuputData(0) > 0.5
+                &&
+                n.getOuputData(1) < 0.5
+                &&
+                n.getOuputData(2) > 0.5
+                )
+                MessageBox.Show("The NeuralNetwork thinks this photo is of a soccer ball");
+            else if (
+                n.getOuputData(0) > 0.5
+                &&
+                n.getOuputData(1) > 0.5
+                &&
+                n.getOuputData(2) < 0.5
+                )
+                MessageBox.Show("The NeuralNetwork thinks this photo is of a volleyball");
+            else if (
+                n.getOuputData(0) > 0.5
+                &&
+                n.getOuputData(1) > 0.5
+                &&
+                n.getOuputData(2) > 0.5
+                )
+                MessageBox.Show("The NeuralNetwork thinks this photo is of a rugby ball");
+            else
+            {
+                MessageBox.Show("The NeuralNetwork thinks this photo is not of any ball");
+            }
         }
     }
 }
