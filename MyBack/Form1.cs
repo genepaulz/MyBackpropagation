@@ -20,6 +20,14 @@ namespace MyBack
         private NeuralNet n;
         private Bitmap[] trainingSet;
         private DateTime start;
+        private int dimensions = 16;
+        private string basketball = "";
+        private string baseball = "";
+        private string billiards = "";
+        private string football = "";
+        private string volleyball = "";
+        private string soccerball = "";
+        private string rugby = "";
         private void timer1_tick(object sender, EventArgs e)
         {
             TimeSpan duration = DateTime.Now - start;
@@ -70,8 +78,8 @@ namespace MyBack
 
 
                 Bitmap image = new Bitmap(file);
-                Rectangle destRect = new Rectangle(0, 0, 32, 32);
-                Bitmap destImage = new Bitmap(32, 32);
+                Rectangle destRect = new Rectangle(0, 0, dimensions, dimensions);
+                Bitmap destImage = new Bitmap(dimensions, dimensions);
 
                 destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
@@ -98,8 +106,8 @@ namespace MyBack
         {
             Bitmap image = new Bitmap(openFileDialog3.FileName);
             pictureBox1.Image = image;
-            Rectangle destRect = new Rectangle(0, 0, 32, 32);
-            Bitmap destImage = new Bitmap(32, 32);
+            Rectangle destRect = new Rectangle(0, 0, dimensions, dimensions);
+            Bitmap destImage = new Bitmap(dimensions, dimensions);
 
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
@@ -137,7 +145,7 @@ namespace MyBack
 
         private void createNNToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            n = new NeuralNet(2304, 512, 3);
+            n = new NeuralNet(256, 256, 3);
         }        
 
         private void trainingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -156,7 +164,8 @@ namespace MyBack
         }
 
         private void basketballToolStripMenuItem_Click(object sender, EventArgs e)
-        {            
+        {
+            start = DateTime.Now;
             for (int y = 0; y < 10000; y++)
                 for (int x = 0; x < trainingSet.Length; x++)
                 {
@@ -176,12 +185,15 @@ namespace MyBack
                     n.setDesiredOutput(2, 1.0);
                     n.learn();
                 }
-            MessageBox.Show("Done!");
+            TimeSpan duration = DateTime.Now - start;
+            MessageBox.Show("Done!\n" + duration);
+            basketball += duration;
         }
 
         private void baseballToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int y = 0; y < 1000; y++)
+            start = DateTime.Now;
+            for (int y = 0; y < 10000; y++)
                 for (int x = 0; x < trainingSet.Length; x++)
                 {
                     int count = 0;
@@ -200,12 +212,15 @@ namespace MyBack
                     n.setDesiredOutput(2, 0.0);
                     n.learn();
                 }
-            MessageBox.Show("Done!");
+            TimeSpan duration = DateTime.Now - start;
+            MessageBox.Show("Done!\n" + duration);
+            baseball += duration;
         }
 
         private void billiardsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int y = 0; y < 1000; y++)
+            start = DateTime.Now;
+            for (int y = 0; y < 10000; y++)
                 for (int x = 0; x < trainingSet.Length; x++)
                 {
                     int count = 0;
@@ -224,12 +239,15 @@ namespace MyBack
                     n.setDesiredOutput(2, 1.0);
                     n.learn();
                 }
-            MessageBox.Show("Done!");
+            TimeSpan duration = DateTime.Now - start;
+            MessageBox.Show("Done!\n" + duration);
+            billiards += duration;
         }
 
         private void footballToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int y = 0; y < 1000; y++)
+            start = DateTime.Now;
+            for (int y = 0; y < 10000; y++)
                 for (int x = 0; x < trainingSet.Length; x++)
                 {
                     int count = 0;
@@ -248,12 +266,15 @@ namespace MyBack
                     n.setDesiredOutput(2, 0.0);
                     n.learn();
                 }
-            MessageBox.Show("Done!");
+            TimeSpan duration = DateTime.Now - start;
+            MessageBox.Show("Done!\n" + duration);
+            football += duration;
         }
 
         private void soccerballToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int y = 0; y < 1000; y++)
+            start = DateTime.Now;
+            for (int y = 0; y < 10000; y++)
                 for (int x = 0; x < trainingSet.Length; x++)
                 {
                     int count = 0;
@@ -272,12 +293,15 @@ namespace MyBack
                     n.setDesiredOutput(2, 1.0);
                     n.learn();
                 }
-            MessageBox.Show("Done!");
+            TimeSpan duration = DateTime.Now - start;
+            MessageBox.Show("Done!\n" + duration);
+            soccerball += duration;
         }
 
         private void volleyballToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int y = 0; y < 1000; y++)
+            start = DateTime.Now;
+            for (int y = 0; y < 10000; y++)
                 for (int x = 0; x < trainingSet.Length; x++)
                 {
                     int count = 0;
@@ -296,12 +320,15 @@ namespace MyBack
                     n.setDesiredOutput(2, 0.0);
                     n.learn();
                 }
-            MessageBox.Show("Done!");
+            TimeSpan duration = DateTime.Now - start;
+            MessageBox.Show("Done!\n" + duration);
+            volleyball += duration;
         }
 
         private void rugbyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int y = 0; y < 2; y++)
+            start = DateTime.Now;
+            for (int y = 0; y < 10000; y++)
                 for (int x = 0; x < trainingSet.Length; x++)
                 {
                     int count = 0;
@@ -320,7 +347,9 @@ namespace MyBack
                     n.setDesiredOutput(2, 1.0);
                     n.learn();
                 }
-            MessageBox.Show("Done!");
+            TimeSpan duration = DateTime.Now - start;
+            MessageBox.Show("Done!\n" + duration);
+            rugby += duration;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -329,7 +358,7 @@ namespace MyBack
             label1.Visible = true;
             label2.Visible = true;
             label3.Visible = true;
-            
+
             label1.Text = Math.Round(n.getOuputData(0), 4).ToString();
             label2.Text = Math.Round(n.getOuputData(1), 4).ToString();
             label3.Text = Math.Round(n.getOuputData(2), 4).ToString();
@@ -374,7 +403,7 @@ namespace MyBack
                 &&
                 n.getOuputData(2) > 0.5
                 )
-                MessageBox.Show("The NeuralNetwork thinks this photo is of a soccer ball");
+                MessageBox.Show("The NeuralNetwork thinks this photo is of a volleyball");
             else if (
                 n.getOuputData(0) > 0.5
                 &&
@@ -382,7 +411,7 @@ namespace MyBack
                 &&
                 n.getOuputData(2) < 0.5
                 )
-                MessageBox.Show("The NeuralNetwork thinks this photo is of a volleyball");
+                MessageBox.Show("The NeuralNetwork thinks this photo is of a soccerball");
             else if (
                 n.getOuputData(0) > 0.5
                 &&
@@ -396,5 +425,19 @@ namespace MyBack
                 MessageBox.Show("The NeuralNetwork thinks this photo is not of any ball");
             }
         }
+
+        private void testResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Basketball Training time: " + basketball + "\n"
+                + "Baseball Training time: " + baseball + "\n"
+                + "Billiards Training time: " + billiards + "\n"
+                + "Football Training time: " + football + "\n"
+                + "Volleyball Training time: " + volleyball + "\n"
+                + "Soccerball Training time: " + soccerball + "\n"
+                + "Rugby Training time: " + rugby + "\n"
+                /*+ "Total Training time: " + basketball+baseball+billiards+football+volleyball+soccerball+rugby + "\n"*/
+                );
+        }
+
     }
 }
