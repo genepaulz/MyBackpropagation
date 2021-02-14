@@ -1,0 +1,8 @@
+C:\Users\L12X12W01\Desktop\MAchine learning LIB\MyNeuralNetsApplication\MyNeuralNetsApplication\bin\Debug\MyNeuralNetsApplication.exe
+C:\Users\L12X12W01\Desktop\MAchine learning LIB\MyNeuralNetsApplication\MyNeuralNetsApplication\bin\Debug\MyNeuralNetsApplication.pdb
+C:\Users\L12X12W01\Desktop\MAchine learning LIB\MyNeuralNetsApplication\MyNeuralNetsApplication\obj\x86\Debug\MyNeuralNetsApplication.Form1.resources
+C:\Users\L12X12W01\Desktop\MAchine learning LIB\MyNeuralNetsApplication\MyNeuralNetsApplication\obj\x86\Debug\MyNeuralNetsApplication.Properties.Resources.resources
+C:\Users\L12X12W01\Desktop\MAchine learning LIB\MyNeuralNetsApplication\MyNeuralNetsApplication\obj\x86\Debug\MyNeuralNetsApplication.csproj.GenerateResource.Cache
+C:\Users\L12X12W01\Desktop\MAchine learning LIB\MyNeuralNetsApplication\MyNeuralNetsApplication\obj\x86\Debug\MyNeuralNetsApplication.exe
+C:\Users\L12X12W01\Desktop\MAchine learning LIB\MyNeuralNetsApplication\MyNeuralNetsApplication\obj\x86\Debug\MyNeuralNetsApplication.pdb
+C:\Users\L12X12W01\Desktop\MAchine learning LIB\MyNeuralNetsApplication\MyNeuralNetsApplication\obj\x86\Debug\MyNeuralNetsApplication.csprojResolveAssemblyReference.cache

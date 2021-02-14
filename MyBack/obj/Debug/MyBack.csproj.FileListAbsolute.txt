@@ -1,0 +1,10 @@
+C:\Users\Zafra\Desktop\MyBackpropagation\MyBack\bin\Debug\MyBack.exe.config
+C:\Users\Zafra\Desktop\MyBackpropagation\MyBack\bin\Debug\MyBack.exe
+C:\Users\Zafra\Desktop\MyBackpropagation\MyBack\bin\Debug\MyBack.pdb
+C:\Users\Zafra\Desktop\MyBackpropagation\MyBack\obj\Debug\MyBack.csprojAssemblyReference.cache
+C:\Users\Zafra\Desktop\MyBackpropagation\MyBack\obj\Debug\MyBack.Form1.resources
+C:\Users\Zafra\Desktop\MyBackpropagation\MyBack\obj\Debug\MyBack.Properties.Resources.resources
+C:\Users\Zafra\Desktop\MyBackpropagation\MyBack\obj\Debug\MyBack.csproj.GenerateResource.cache
+C:\Users\Zafra\Desktop\MyBackpropagation\MyBack\obj\Debug\MyBack.csproj.CoreCompileInputs.cache
+C:\Users\Zafra\Desktop\MyBackpropagation\MyBack\obj\Debug\MyBack.exe
+C:\Users\Zafra\Desktop\MyBackpropagation\MyBack\obj\Debug\MyBack.pdb
